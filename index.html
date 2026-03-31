@@ -45,10 +45,14 @@ body { margin:0; background:var(--ink); font-family:var(--fb); overflow:hidden; 
 #display {
   position:fixed; top:0; left:0; right:0; bottom:160px;
   background:var(--ink);
-  display:flex; justify-content:center; align-items:center; overflow:hidden;
+  overflow:hidden;
   z-index:1;
 }
-#display iframe { width:100%; height:100%; border:none; }
+#demoFrame {
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  border:none; display:none;
+}
 
 #welcome {
   position:absolute; inset:0;
@@ -363,7 +367,6 @@ body { margin:0; background:var(--ink); font-family:var(--fb); overflow:hidden; 
 
 <div id="display">
   <div id="loadOverlay"><div class="load-ring"></div></div>
-
   <div id="welcome">
     <div class="ring"></div>
     <div class="ring"></div>
@@ -447,7 +450,8 @@ body { margin:0; background:var(--ink); font-family:var(--fb); overflow:hidden; 
         </div>
       </div>
     </div>
-  </div>
+  </div><!-- end welcome -->
+  <iframe id="demoFrame" src="about:blank" allowfullscreen></iframe>
 </div>
 
 <button id="toggleBtn" onclick="togglePanel()">Hide</button>
@@ -499,20 +503,20 @@ function animParticles(){ ctx.clearRect(0,0,W,H); particles.forEach(p=>{ p.updat
 animParticles();
 
 const pt = document.getElementById('pageTransition');
+const demoFrame = document.getElementById('demoFrame');
+const welcome   = document.getElementById('welcome');
+const overlay   = document.getElementById('loadOverlay');
+
 function openUI(page){
   pt.className='in';
   setTimeout(()=>{
-    const display=document.getElementById('display');
-    /* hide welcome */
-    document.getElementById('welcome').style.display='none';
-    /* remove ALL existing iframes so only one is ever shown */
-    display.querySelectorAll('iframe').forEach(f=>f.remove());
-    const overlay=document.getElementById('loadOverlay');
+    /* hide welcome, show only the single iframe */
+    welcome.style.display='none';
+    demoFrame.style.display='block';
     overlay.classList.add('active');
-    const iframe=document.createElement('iframe');
-    iframe.src=page;
-    iframe.onload=()=>{ overlay.classList.remove('active'); };
-    display.appendChild(iframe);
+    /* swap src — single iframe, no stacking ever */
+    demoFrame.src = page;
+    demoFrame.onload = ()=>{ overlay.classList.remove('active'); };
     pt.className='out';
     setTimeout(()=>pt.className='',520);
   },500);
