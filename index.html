@@ -502,13 +502,17 @@ const pt = document.getElementById('pageTransition');
 function openUI(page){
   pt.className='in';
   setTimeout(()=>{
+    const display=document.getElementById('display');
+    /* hide welcome */
     document.getElementById('welcome').style.display='none';
+    /* remove ALL existing iframes so only one is ever shown */
+    display.querySelectorAll('iframe').forEach(f=>f.remove());
     const overlay=document.getElementById('loadOverlay');
     overlay.classList.add('active');
     const iframe=document.createElement('iframe');
     iframe.src=page;
     iframe.onload=()=>{ overlay.classList.remove('active'); };
-    document.getElementById('display').appendChild(iframe);
+    display.appendChild(iframe);
     pt.className='out';
     setTimeout(()=>pt.className='',520);
   },500);
