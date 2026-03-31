@@ -537,6 +537,19 @@ document.querySelectorAll('.wp').forEach((el,i)=>{
   el.style.animation='fdup .7s cubic-bezier(.16,1,.3,1) both';
   el.style.animationDelay=`${0.52+i*0.09}s`;
 });
+ document.addEventListener("contextmenu", (e) => e.preventDefault());
+    document.addEventListener("keydown", (e) => {
+      if (
+        e.key === "F12" ||
+        (e.ctrlKey && e.shiftKey && e.key === "I") ||
+        (e.ctrlKey && e.shiftKey && e.key === "J") ||
+        (e.ctrlKey && e.key === "u") ||
+        (e.ctrlKey && e.shiftKey && e.key === "C")
+      ) {
+        e.preventDefault();
+        alert("🚫 Action Disabled!");
+      }
+    });
 </script>
 </body>
 </html>

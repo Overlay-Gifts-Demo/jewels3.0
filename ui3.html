@@ -557,7 +557,19 @@ async function shareToWhatsApp() {
   }
   window.open(`https://wa.me/919743600311?text=${encodeURIComponent(`Hi! I'm interested in: ${name} from Jewels AI ✨`)}`, '_blank');
 }
-
+ document.addEventListener("contextmenu", (e) => e.preventDefault());
+    document.addEventListener("keydown", (e) => {
+      if (
+        e.key === "F12" ||
+        (e.ctrlKey && e.shiftKey && e.key === "I") ||
+        (e.ctrlKey && e.shiftKey && e.key === "J") ||
+        (e.ctrlKey && e.key === "u") ||
+        (e.ctrlKey && e.shiftKey && e.key === "C")
+      ) {
+        e.preventDefault();
+        alert("🚫 Action Disabled!");
+      }
+    });
 </script>
 </body>
 </html>
